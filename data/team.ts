@@ -11,9 +11,9 @@ export interface Person {
 export const team: Person[] = [
   {
     name: "Oscar Arredondo",
-    role: "TI · Gestión de plataforma",
+    role: "Seguimiento de proyecto y de tickets",
     group: "ti",
-    responsibility: "Coordinación histórica del proyecto. Continúa apoyando desde TI en plataforma y estrategia.",
+    responsibility: "Acompaña la transición y se mantiene como soporte estratégico desde TI.",
     highlight: "transition",
   },
   {
