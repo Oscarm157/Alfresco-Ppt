@@ -33,7 +33,7 @@ export function Slide09Offenders({ index, total }: Props) {
         </header>
       </Reveal>
 
-      <RevealStack className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <RevealStack className="grid grid-cols-1 md:grid-cols-2 md:grid-rows-4 md:grid-flow-col gap-4">
         {offenders.map((o) => (
           <motion.div
             key={o.n}

@@ -8,7 +8,7 @@ export const mitigations: Mitigation[] = [
   {
     n: 1,
     title: "Project Manager dedicada",
-    body: "Karla Lisset asume la coordinación punta a punta del proyecto. Oscar continúa apoyando desde TI en temas estratégicos y de plataforma.",
+    body: "Karla Lisset asume la coordinación punta a punta del proyecto. Oscar acompaña durante el periodo de transición, hasta que el conocimiento y los frentes de trabajo queden transferidos. Una vez completada la transición, Karla queda como punto único de coordinación.",
   },
   {
     n: 2,
@@ -33,7 +33,7 @@ export const mitigations: Mitigation[] = [
   {
     n: 6,
     title: "Matriz de aprobación de sprints",
-    body: "Se documenta quién aprueba cada elemento que entra al sprint y quién valida la postergación. Karla Lisset firma del lado ATISA y Ana María del lado Appropia.",
+    body: "Se documenta quién aprueba cada elemento que entra al sprint y quién valida la postergación. Karla Lisset confirma del lado ATISA y Ana María del lado Appropia.",
   },
   {
     n: 7,

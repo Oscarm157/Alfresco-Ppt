@@ -37,8 +37,8 @@ export const offenders: Offender[] = [
   },
   {
     n: 7,
-    title: "Ciclos de aclaración prolongados en cada sprint",
-    body: "Las peticiones que llegan al proveedor no siempre incluyen el caso de uso ni los criterios de aceptación, lo que genera ciclos repetidos de aclaración antes del inicio del desarrollo.",
+    title: "Peticiones al sprint con detalle insuficiente",
+    body: "Las peticiones que ingresan al sprint del proveedor no siempre incluyen el caso de uso ni los criterios de aceptación. Un mayor detalle desde el origen reduce los ciclos de aclaración y, además, baja la incidencia de bugs por escenarios no contemplados al implementar.",
   },
   {
     n: 8,
