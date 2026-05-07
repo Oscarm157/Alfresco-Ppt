@@ -10,10 +10,9 @@ import { Slide09Offenders } from "@/components/slides/slide-09-offenders";
 import { Slide10Mitigations } from "@/components/slides/slide-10-mitigations";
 import { Slide11Requests } from "@/components/slides/slide-11-requests";
 import { Slide12Transition } from "@/components/slides/slide-12-transition";
-import { Slide13Next90 } from "@/components/slides/slide-13-next-90";
 import { Slide14Closing } from "@/components/slides/slide-14-closing";
 
-const TOTAL = 12;
+const TOTAL = 11;
 
 export default function Home() {
   return (
@@ -29,8 +28,7 @@ export default function Home() {
         <Slide10Mitigations index={8} total={TOTAL} />
         <Slide11Requests index={9} total={TOTAL} />
         <Slide12Transition index={10} total={TOTAL} />
-        <Slide13Next90 index={11} total={TOTAL} />
-        <Slide14Closing index={12} total={TOTAL} />
+        <Slide14Closing index={11} total={TOTAL} />
       </main>
       <ProgressRail total={TOTAL} />
       <KeyboardNav total={TOTAL} />
