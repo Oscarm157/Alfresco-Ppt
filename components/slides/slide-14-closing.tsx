@@ -22,8 +22,8 @@ export function Slide14Closing({ index, total }: Props) {
         </h2>
 
         <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-3xl border-t border-line pt-8">
-          <Contact name="Karla Lisset" role="PM Alfresco ATISA" email="karla.lisset@atisa.com.mx" />
-          <Contact name="Oscar Arredondo" role="TI · Plataforma" email="oscar.arredondo@atisa.com.mx" />
+          <Contact name="Karla Lisset" role="Project Manager · Alfresco ATISA" email="karla.lisset@atisa.com" />
+          <Contact name="Oscar Arredondo" role="TI · Plataforma" email="oscar.arredondo@atisa.com" />
         </div>
       </Reveal>
     </SlideContainer>

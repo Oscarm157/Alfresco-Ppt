@@ -117,8 +117,8 @@ export function Slide06TicketCategories({ index, total }: Props) {
         >
           <div className="label-mono text-rust mb-3 text-[12px]">Lo importante</div>
           <p className="text-lg text-ink leading-snug">
-            <strong className="font-bold">16 tickets (18.4%)</strong> son bugs o errores
-            de la plataforma. Esto es lo que se escala a Appropia y lo que la evaluación
+            <strong className="font-bold">27 tickets (31.0%)</strong> son bugs y correcciones
+            de la plataforma. Es la categoría con más peso y la que la evaluación recurrente
             del proveedor tiene que medir mes con mes.
           </p>
         </div>

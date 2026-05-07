@@ -1,12 +1,12 @@
 // Categorización aproximada de los 87 tickets del periodo (cierre mayo 2026)
-// Basada en análisis del campo "Reporte" del export 2026-05-07
+// Bugs y correcciones se contabilizan juntos: ambos requieren intervención técnica
+// sobre datos o lógica de la plataforma.
 export const ticketsByType = [
-  { name: "Tickets de proceso", value: 22, pct: 25.3, color: "var(--navy)" },
-  { name: "Alta / configuración", value: 20, pct: 23.0, color: "var(--terracotta)" },
-  { name: "Asesoría / soporte", value: 20, pct: 23.0, color: "var(--gold)" },
-  { name: "Bugs / errores plataforma", value: 16, pct: 18.4, color: "var(--rust)" },
-  { name: "Correcciones / ajustes", value: 6, pct: 6.9, color: "var(--sage)" },
-  { name: "Reportes / extracción", value: 3, pct: 3.4, color: "var(--muted)" },
+  { name: "Bugs y correcciones", value: 27, pct: 31.0, color: "var(--terracotta)" },
+  { name: "Asesoría y soporte", value: 22, pct: 25.3, color: "var(--gold)" },
+  { name: "Alta y configuración", value: 22, pct: 25.3, color: "var(--rust)" },
+  { name: "Reportes y extracción", value: 4, pct: 4.6, color: "var(--sage)" },
+  { name: "Tickets de proceso", value: 12, pct: 13.8, color: "var(--navy)" },
 ];
 
 // Por solicitante (top), del mismo export

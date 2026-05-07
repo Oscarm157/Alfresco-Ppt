@@ -7,7 +7,7 @@ export const devRequests = [
 ];
 
 export const mgmtRequests = [
-  "Definir matriz clara de aprobación de sprints. ¿Quién da la firma final?",
+  "Definir matriz clara de aprobación de sprints. ¿Quién da el visto bueno final?",
   "Reducir el porcentaje de incidencias en despliegues nuevos. Implementar protocolo de calidad previo al paso a productivo.",
   "Recibir todo feature request con caso de uso y flujo del proceso. Pedimos reciprocidad en cómo se documenta del lado de Appropia.",
   "Manuales detallados sobre el funcionamiento de Alfresco ATISA.",

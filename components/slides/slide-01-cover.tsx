@@ -26,7 +26,7 @@ export function Slide01Cover({ index, total }: Props) {
         </Reveal>
         <Reveal delay={0.25} className="lg:col-span-4 lg:border-l lg:border-line lg:pl-8">
           <div className="space-y-4 text-sm">
-            <Row label="Para" value="Luis Arias · CTO" />
+            <Row label="Para" value="Luis Arias, CTO · Equipo Alfresco" />
             <Row label="Por" value="TI · Oscar Arredondo" />
             <Row label="Contexto" value="Inducción ejecutiva de Karla Lisset como Project Manager dedicada" />
           </div>
