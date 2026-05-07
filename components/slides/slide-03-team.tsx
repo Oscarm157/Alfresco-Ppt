@@ -53,7 +53,7 @@ export function Slide03Team({ index, total }: Props) {
                           color: "var(--paper)",
                         }}
                       >
-                        Nueva PM
+                        Integración Project Manager
                       </span>
                     )}
                     {p.highlight === "transition" && (

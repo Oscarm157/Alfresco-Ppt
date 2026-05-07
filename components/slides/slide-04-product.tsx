@@ -1,9 +1,15 @@
 import { SlideContainer } from "@/components/shared/slide-container";
-import { Placeholder } from "@/components/shared/placeholder";
 
 interface Props { index: number; total: number; }
 
 const docs = ["CFDI", "ICSOE", "SISUB", "SIPARE", "Contratos", "Documentos generales"];
+
+const kpis = [
+  { value: 79, label: "Subcontratistas registrados", color: "var(--terracotta)" },
+  { value: 59, pct: 74.7, label: "Dados de alta", color: "var(--state-finished)" },
+  { value: 54, pct: 68.4, label: "Personas morales", color: "var(--navy)" },
+  { value: 25, pct: 31.6, label: "Personas físicas", color: "var(--gold)" },
+];
 
 export function Slide04Product({ index, total }: Props) {
   return (
@@ -47,22 +53,40 @@ export function Slide04Product({ index, total }: Props) {
         </div>
 
         <div className="lg:col-span-5 grid grid-cols-2 gap-4">
-          <Kpi label="Subcontratistas activos" />
-          <Kpi label="Documentos validados / mes" />
-          <Kpi label="Proyectos activos" />
-          <Kpi label="Validaciones cruzadas" />
+          {kpis.map((k) => (
+            <Kpi key={k.label} {...k} />
+          ))}
         </div>
       </div>
     </SlideContainer>
   );
 }
 
-function Kpi({ label }: { label: string }) {
+function Kpi({
+  value,
+  pct,
+  label,
+  color,
+}: {
+  value: number;
+  pct?: number;
+  label: string;
+  color: string;
+}) {
   return (
-    <div className="bg-paper border border-line rounded-sm p-5 flex flex-col gap-3">
-      <Placeholder size="sm" />
-      <div className="font-display italic font-semibold text-[40px] leading-none text-ink">
-        —
+    <div className="bg-paper border border-line rounded-sm p-5 flex flex-col gap-2">
+      <div className="flex items-baseline gap-2">
+        <span
+          className="font-display italic font-semibold text-[44px] leading-none tabular-nums"
+          style={{ color }}
+        >
+          {value}
+        </span>
+        {pct !== undefined && (
+          <span className="font-mono text-xs text-muted tabular-nums">
+            {pct.toFixed(1)}%
+          </span>
+        )}
       </div>
       <div className="label-mono text-muted leading-snug">{label}</div>
     </div>

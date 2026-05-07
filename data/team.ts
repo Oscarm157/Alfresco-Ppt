@@ -45,7 +45,7 @@ export const team: Person[] = [
     name: "Griselda",
     role: "Gerente de Nóminas",
     group: "operacion",
-    responsibility: "Stakeholder funcional. Jefa directa de Kimberly y Marisol.",
+    responsibility: "Jefa directa de Kimberly y Marisol. Patrocinadora del área en Nóminas.",
   },
   {
     name: "Karla Ruiz",
