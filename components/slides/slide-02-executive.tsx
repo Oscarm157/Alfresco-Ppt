@@ -18,13 +18,9 @@ const proveedores = {
 const tickets = {
   total: 87,
   resueltos: 71,
-  resueltosPct: 81.6,
   enCurso: 12,
   cancelados: 4,
   promedioH: 40.5,
-  dentroTiempo: 11,
-  dentroPct: 20,
-  fueraTiempo: 44,
 };
 
 export function Slide02Executive({ index, total }: Props) {
@@ -37,11 +33,11 @@ export function Slide02Executive({ index, total }: Props) {
       background="cream"
     >
       <Reveal>
-        <header className="mb-8 max-w-3xl">
-          <h2 className="text-[clamp(36px,4.5vw,52px)] text-ink leading-[1.05]">
+        <header className="mb-10">
+          <h2 className="text-[clamp(48px,5.5vw,76px)] text-ink leading-[1.02] tracking-[-0.02em]">
             Dónde estamos <em>hoy</em>
           </h2>
-          <p className="mt-3 text-sm text-muted">
+          <p className="mt-4 text-lg text-ink-soft leading-snug">
             Cierre de mayo 2026 · datos de la plataforma y de la mesa de ayuda
           </p>
         </header>
@@ -54,7 +50,7 @@ export function Slide02Executive({ index, total }: Props) {
           <Block accent="var(--terracotta)" label="Subcontratistas">
             <BigNumber color="var(--terracotta)">{proveedores.total}</BigNumber>
             <Caption>registrados en plataforma</Caption>
-            <div className="grid grid-cols-3 gap-3 mt-5 pt-5 border-t border-line-soft">
+            <div className="grid grid-cols-3 gap-4 mt-6 pt-6 border-t border-line-soft">
               <Mini
                 value={proveedores.alta}
                 pct={proveedores.altaPct}
@@ -79,10 +75,9 @@ export function Slide02Executive({ index, total }: Props) {
           <Block accent="var(--navy)" label="Tickets">
             <BigNumber color="var(--navy)">{tickets.total}</BigNumber>
             <Caption>atendidos en el período</Caption>
-            <div className="grid grid-cols-3 gap-3 mt-5 pt-5 border-t border-line-soft">
+            <div className="grid grid-cols-3 gap-4 mt-6 pt-6 border-t border-line-soft">
               <Mini
                 value={tickets.resueltos}
-                pct={tickets.resueltosPct}
                 label="Resueltos"
                 color="var(--state-finished)"
               />
@@ -90,7 +85,7 @@ export function Slide02Executive({ index, total }: Props) {
                 value={tickets.enCurso}
                 label="En curso"
                 color="var(--state-pending)"
-                note="Trabajándose en sprint o en cola · Auditoría Interna y Especialista de Subcontratistas"
+                note="En sprint o en cola · Auditoría Interna y Especialista de Subcontratistas"
               />
               <Mini
                 value={tickets.cancelados}
@@ -98,25 +93,21 @@ export function Slide02Executive({ index, total }: Props) {
                 color="var(--state-cancelled)"
               />
             </div>
-            <div className="mt-4 flex items-baseline gap-3 text-xs text-muted">
-              <span className="label-mono text-navy">Tiempo promedio</span>
-              <span className="font-display italic text-2xl text-ink leading-none">
+            <div className="mt-5 flex items-baseline gap-3">
+              <span className="label-mono text-navy text-[12px]">Tiempo promedio</span>
+              <span className="font-sans font-bold text-3xl text-ink leading-none tabular-nums">
                 {tickets.promedioH}
               </span>
-              <span className="text-ink-soft">h</span>
-              <span className="text-line">·</span>
-              <span className="text-ink-soft">
-                {tickets.dentroTiempo} dentro de SLA, {tickets.fueraTiempo} fuera
-              </span>
+              <span className="text-ink-soft text-base">horas</span>
             </div>
           </Block>
         </Reveal>
       </div>
 
       {/* Strip inferior: lo que cambia */}
-      <div className="bg-cream-soft border border-line-soft rounded-sm p-5">
-        <div className="label-mono text-gold mb-3">Lo que cambia</div>
-        <ul className="grid grid-cols-1 md:grid-cols-3 gap-x-6 gap-y-2 text-sm text-ink-soft leading-relaxed">
+      <div className="bg-cream-soft border border-line-soft rounded-sm p-6">
+        <div className="label-mono text-gold mb-3 text-[12px]">Lo que cambia</div>
+        <ul className="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-2 text-base text-ink-soft leading-relaxed">
           <li>Karla Lisset se integra como PM dedicada de Alfresco.</li>
           <li>Flujo formal de tickets y evaluación recurrente del proveedor.</li>
           <li>Ofensores documentados, mitigaciones en marcha.</li>
@@ -137,7 +128,7 @@ function Block({
 }) {
   return (
     <div className="bg-paper border border-line rounded-sm p-7 h-full">
-      <div className="label-mono mb-5" style={{ color: accent }}>
+      <div className="label-mono mb-5 text-[12px]" style={{ color: accent }}>
         {label}
       </div>
       {children}
@@ -148,7 +139,7 @@ function Block({
 function BigNumber({ children, color }: { children: React.ReactNode; color: string }) {
   return (
     <div
-      className="font-display italic font-semibold text-[88px] leading-none tracking-[-0.01em] tabular-nums"
+      className="font-sans font-bold text-[120px] leading-none tracking-[-0.03em] tabular-nums"
       style={{ color }}
     >
       {children}
@@ -157,7 +148,7 @@ function BigNumber({ children, color }: { children: React.ReactNode; color: stri
 }
 
 function Caption({ children }: { children: React.ReactNode }) {
-  return <div className="mt-2 text-sm text-ink-soft">{children}</div>;
+  return <div className="mt-3 text-base text-ink-soft">{children}</div>;
 }
 
 function Mini({
@@ -177,24 +168,23 @@ function Mini({
     <div>
       <div className="flex items-baseline gap-2">
         <span
-          className="font-display italic font-semibold text-2xl tabular-nums leading-none"
+          className="font-sans font-bold text-4xl tabular-nums leading-none tracking-[-0.02em]"
           style={color ? { color } : undefined}
         >
           {value}
         </span>
         {pct !== undefined && (
-          <span className="font-mono text-[11px] text-muted tabular-nums">
+          <span className="font-mono text-[12px] text-muted tabular-nums">
             {pct.toFixed(1)}%
           </span>
         )}
       </div>
-      <div className="label-mono text-muted mt-1.5 leading-snug">{label}</div>
+      <div className="text-[13px] font-medium text-ink mt-2 leading-snug">{label}</div>
       {note && (
-        <div className="text-[11px] text-ink-soft leading-snug mt-1.5 italic">
+        <div className="text-[12px] text-ink-soft leading-snug mt-1.5">
           {note}
         </div>
       )}
     </div>
   );
 }
-

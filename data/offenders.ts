@@ -7,42 +7,42 @@ export interface Offender {
 export const offenders: Offender[] = [
   {
     n: 1,
-    title: "Cuello de botella en TI",
-    body: "La gestión del proyecto recae en una sola persona (Oscar) que sostiene varios proyectos en paralelo. El ritmo se ve afectado.",
+    title: "Capacidad de gestión limitada",
+    body: "Oscar mantiene parte de las actividades del proyecto, pero su agenda está distribuida entre varios proyectos en paralelo. La operación requiere a una persona con dedicación de tiempo completo para sostener el ritmo de desarrollo y de gestión que el proyecto demanda.",
   },
   {
     n: 2,
-    title: "Falta de un proceso documentado end-to-end",
-    body: "Hasta ahora el flujo vivía en la cabeza del equipo. Mitigación parcial: ya existe el flujo formal de tickets (slide 05).",
+    title: "Procesos operativos sin documentación formal",
+    body: "Varios procesos del proyecto, entre ellos el flujo de tickets, alta de subcontratistas, validación documental y escalamiento al proveedor, se han venido apoyando en el conocimiento del equipo. La ausencia de documentación formal dificulta la incorporación de personal nuevo y la trazabilidad ante terceros.",
   },
   {
     n: 3,
-    title: "Alto volumen de bugs en despliegues nuevos",
-    body: "Una proporción significativa de los tickets recientes son bugs introducidos por nuevas funcionalidades. Indicador de QA insuficiente del lado de Appropia.",
+    title: "Volumen elevado de incidencias post-despliegue",
+    body: "Una porción significativa de los tickets recientes corresponde a incidencias introducidas por nuevas entregas. Existe oportunidad de mejora en los controles de calidad del proveedor previos al paso a productivo.",
   },
   {
     n: 4,
-    title: "Repositorio de código desactualizado",
-    body: "El GitHub que Appropia comparte con TI no refleja la versión productiva. Bloquea la capacitación técnica de Leobardo.",
+    title: "Repositorio de código desalineado con la versión productiva",
+    body: "El repositorio que Appropia comparte con TI no refleja la versión que está en producción. Esta condición limita la capacitación técnica del equipo interno y el tiempo de respuesta ante incidencias.",
   },
   {
     n: 5,
-    title: "Falta de manuales detallados",
-    body: "Cada nueva funcionalidad llega sin documentación robusta. TI tiene que reverse-engineerearla.",
+    title: "Documentación técnica insuficiente por entrega",
+    body: "Las nuevas funcionalidades suelen entregarse sin manual técnico ni manual de usuario, lo que obliga al equipo de TI a reconstruir el detalle de cada cambio.",
   },
   {
     n: 6,
-    title: "Ambigüedad en aprobación de sprints",
-    body: "No hay claridad sobre quién da la aprobación final de qué entra a un sprint y qué se posterga.",
+    title: "Ambigüedad en la aprobación de sprints",
+    body: "No existe una matriz formal que defina quién aprueba la entrada de cada elemento al sprint y quién aprueba su postergación. Esto diluye la rendición de cuentas y la priorización.",
   },
   {
     n: 7,
-    title: "Sprints con back-and-forth excesivo",
-    body: "Las peticiones de TI no siempre llegan con casos de uso claros, lo que multiplica los ciclos de aclaración con Appropia.",
+    title: "Ciclos de aclaración prolongados en cada sprint",
+    body: "Las peticiones que llegan al proveedor no siempre incluyen el caso de uso ni los criterios de aceptación, lo que genera ciclos repetidos de aclaración antes del inicio del desarrollo.",
   },
   {
     n: 8,
-    title: "Subcontratistas con baja capacidad digital",
-    body: "Muchos usuarios externos batallan con la plataforma. No hay onboarding ni video explicativo.",
+    title: "Adopción limitada por parte de subcontratistas",
+    body: "Una parte de los subcontratistas presenta dificultades para operar la plataforma. No existe material de inducción ni una guía visual que facilite su uso desde el primer ingreso.",
   },
 ];
