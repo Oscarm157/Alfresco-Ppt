@@ -4,7 +4,7 @@ export interface Action {
 }
 
 export const days30: Action[] = [
-  { task: "Onboarding completo de Karla Lisset", owner: "Oscar" },
+  { task: "Inducción completa de Karla Lisset", owner: "Oscar" },
   { task: "Auditoría de tickets abiertos y priorización", owner: "Karla Lisset" },
   { task: "Petición formal a Appropia (slide 11)", owner: "Karla Lisset" },
   { task: "Implementación del flujo de tickets en el portal", owner: "Leobardo" },

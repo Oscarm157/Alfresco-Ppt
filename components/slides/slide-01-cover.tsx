@@ -28,7 +28,7 @@ export function Slide01Cover({ index, total }: Props) {
           <div className="space-y-4 text-sm">
             <Row label="Para" value="Luis Arias · CTO" />
             <Row label="Por" value="TI · Oscar Arredondo" />
-            <Row label="Contexto" value="Onboarding ejecutivo de Karla Lisset como PM dedicada" />
+            <Row label="Contexto" value="Inducción ejecutiva de Karla Lisset como Project Manager dedicada" />
           </div>
           <div className="mt-10 pt-6 border-t border-line label-mono text-muted">
             ATISA Group · TI · Confidencial
