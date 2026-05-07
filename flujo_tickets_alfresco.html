@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flujo de Tickets · Alfresco · ATISA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Manrope:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F4EEE3;
+    --cream-soft: #FAF6EE;
+    --paper: #FFFDF8;
+    --ink: #1B2236;
+    --ink-soft: #3A4256;
+    --muted: #6B6F7B;
+    --terracotta: #C84B31;
+    --terracotta-soft: #E8A893;
+    --terracotta-tint: #F8DDD3;
+    --rust: #8B3A2F;
+    --sage: #6B8E6F;
+    --sage-tint: #DCE6D8;
+    --gold: #B8894A;
+    --gold-tint: #F0E2C8;
+    --navy: #2C3E5C;
+    --navy-tint: #DCE2EC;
+
+    --state-pending: #C99500;
+    --state-pending-tint: #FBEFC4;
+    --state-escalated: #2563A8;
+    --state-escalated-tint: #D4E4F4;
+    --state-finished: #2D7A4A;
+    --state-finished-tint: #D4E8DA;
+    --state-cancelled: #7A7A7A;
+    --state-cancelled-tint: #E0E0E0;
+
+    --line: #D9CFC0;
+    --line-soft: #E8DFD0;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Manrope', sans-serif;
+    font-weight: 400;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+
+  body {
+    background-image:
+      radial-gradient(circle at 15% 10%, rgba(200, 75, 49, 0.04) 0%, transparent 40%),
+      radial-gradient(circle at 85% 90%, rgba(44, 62, 92, 0.05) 0%, transparent 40%);
+    padding: 48px 32px 80px;
+  }
+
+  .container {
+    max-width: 1480px;
+    margin: 0 auto;
+  }
+
+  /* ---------- HEADER ---------- */
+  header {
+    margin-bottom: 40px;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 28px;
+  }
+
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .eyebrow::before {
+    content: "";
+    width: 28px;
+    height: 1px;
+    background: var(--terracotta);
+  }
+
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 56px;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+  h1 em {
+    font-style: italic;
+    color: var(--terracotta);
+    font-weight: 400;
+  }
+
+  .subtitle {
+    font-size: 14px;
+    color: var(--muted);
+    margin-top: 14px;
+    max-width: 640px;
+  }
+
+  /* ---------- LEGEND BAR ---------- */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 24px;
+    margin-bottom: 32px;
+    padding: 16px 20px;
+    background: var(--cream-soft);
+    border: 1px solid var(--line-soft);
+    border-radius: 4px;
+  }
+  .legend-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--ink-soft);
+    flex-wrap: wrap;
+  }
+  .legend-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-right: 4px;
+  }
+  .role-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+  }
+  .role-chip::before {
+    content: "";
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    background: var(--c, var(--ink));
+  }
+  .state-chip {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-weight: 500;
+  }
+
+  /* ============================================================
+     FLOWCHART
+     ============================================================ */
+  .flow-wrapper {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 56px 32px 64px;
+    overflow-x: auto;
+  }
+
+  .flow {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .node {
+    background: var(--paper);
+    border: 1.5px solid var(--c, var(--ink));
+    border-radius: 6px;
+    padding: 14px 22px;
+    text-align: center;
+    min-width: 240px;
+    max-width: 380px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+    position: relative;
+  }
+  .node .n-title {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+  .node .n-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+  .node .n-role {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--c, var(--ink));
+    background: var(--paper);
+    padding: 2px 8px;
+    border: 1px solid var(--c, var(--line));
+    border-radius: 999px;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+
+  .node.start, .node.end {
+    border-radius: 999px;
+    background: var(--ink);
+    color: var(--cream-soft);
+    border-color: var(--ink);
+    padding: 14px 32px;
+  }
+  .node.start .n-title, .node.end .n-title {
+    color: var(--cream-soft);
+    font-size: 15px;
+  }
+  .node.end {
+    background: var(--state-finished);
+    border-color: var(--state-finished);
+  }
+
+  .node.decision {
+    background: var(--gold-tint);
+    border-color: var(--gold);
+    border-radius: 4px;
+    border-style: dashed;
+    border-width: 2px;
+  }
+  .node.decision .n-title {
+    color: var(--rust);
+    font-style: italic;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.1;
+  }
+  .node.decision::before {
+    content: "◆";
+    color: var(--gold);
+    font-size: 14px;
+    margin-right: 6px;
+  }
+
+  .node.state-end {
+    background: var(--paper);
+    border: 1.5px solid;
+    padding: 12px 24px;
+  }
+  .state-pill {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 600;
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 3px;
+  }
+
+  /* ----- ARROWS ----- */
+  .arrow-down {
+    width: 1.5px;
+    height: 28px;
+    background: var(--ink-soft);
+    position: relative;
+  }
+  .arrow-down::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 7px solid var(--ink-soft);
+  }
+  .arrow-short {
+    height: 18px !important;
+  }
+
+  /* ============================================================
+     PRIMARY BRANCH — TÉCNICO vs PROCESO  (big labels)
+     ============================================================ */
+  .branch-primary {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    max-width: 1000px;
+    position: relative;
+    margin-top: 0;
+  }
+  .branch-primary::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 25%;
+    right: 25%;
+    height: 1.5px;
+    background: var(--ink-soft);
+  }
+
+  .branch-primary-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    padding-top: 0;
+  }
+  .branch-primary-col::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1.5px;
+    height: 18px;
+    background: var(--ink-soft);
+  }
+
+  .big-branch-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: 44px;
+    letter-spacing: -0.01em;
+    line-height: 1;
+    margin-top: 24px;
+    margin-bottom: 8px;
+    color: var(--c, var(--ink));
+    position: relative;
+  }
+  .big-branch-label::before {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 2px;
+    background: var(--c, var(--ink));
+    opacity: 0.4;
+  }
+  .big-branch-label.tecnico { color: var(--terracotta); }
+  .big-branch-label.proceso { color: var(--navy); }
+
+  .branch-primary-content {
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  /* ============================================================
+     SECONDARY BRANCH — generic
+     ============================================================ */
+  .branch {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    position: relative;
+    gap: 0;
+  }
+  .branch::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 25%;
+    right: 25%;
+    height: 1.5px;
+    background: var(--ink-soft);
+  }
+  .branch-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    padding-top: 0;
+  }
+  .branch-col::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1.5px;
+    height: 28px;
+    background: var(--ink-soft);
+  }
+  .branch-col::after {
+    content: "";
+    position: absolute;
+    top: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 7px solid var(--ink-soft);
+  }
+  .branch-label {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--paper);
+    padding: 2px 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--c, var(--ink));
+    border: 1px solid var(--c, var(--line));
+    border-radius: 3px;
+    z-index: 2;
+    white-space: nowrap;
+  }
+  .branch-col-content {
+    margin-top: 38px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  /* ============================================================
+     NOTES SECTION
+     ============================================================ */
+  .notes {
+    margin-top: 48px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  .note {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--c, var(--terracotta));
+    padding: 20px 22px;
+    border-radius: 0 4px 4px 0;
+  }
+  .note .note-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--c, var(--terracotta));
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+  .note .note-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.15;
+    margin-bottom: 8px;
+  }
+  .note .note-title em {
+    font-style: italic;
+    font-weight: 400;
+  }
+  .note p {
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+  }
+  .note.alt { --c: var(--gold); }
+  .note.warn { --c: var(--terracotta); }
+  .note.sla { --c: var(--navy); }
+  .note.cancel { --c: var(--state-cancelled); }
+
+  /* ============================================================
+     FOOTER
+     ============================================================ */
+  footer {
+    margin-top: 56px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  footer .signature em {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+
+  /* State helpers */
+  .bg-pending { background: var(--state-pending-tint); color: var(--state-pending); }
+  .bg-escalated { background: var(--state-escalated-tint); color: var(--state-escalated); }
+  .bg-finished { background: var(--state-finished-tint); color: var(--state-finished); }
+  .bg-cancelled { background: var(--state-cancelled-tint); color: var(--state-cancelled); }
+
+  .border-finished { border-color: var(--state-finished); }
+  .border-cancelled { border-color: var(--state-cancelled); }
+  .border-escalated { border-color: var(--state-escalated); }
+
+  code.email {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--rust);
+    background: var(--terracotta-tint);
+    padding: 1px 6px;
+    border-radius: 2px;
+  }
+
+  /* mobile */
+  @media (max-width: 720px) {
+    body { padding: 24px 16px; }
+    h1 { font-size: 38px; }
+    .branch-primary, .branch { grid-template-columns: 1fr; }
+    .branch-primary::before, .branch::before { display: none; }
+    .big-branch-label { font-size: 32px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- ========== HEADER ========== -->
+<header>
+  <div class="eyebrow">Mesa de Ayuda · Alfresco · v1.1</div>
+  <h1>Flujo de <em>Levantamiento</em><br>y Resolución de Tickets</h1>
+  <p class="subtitle">Proceso end-to-end para tickets técnicos y de proceso de la plataforma de gestión documental de subcontratistas. Cuatro roles, cuatro estados, dos rutas de resolución.</p>
+</header>
+
+<!-- ========== LEGEND ========== -->
+<div class="legend">
+  <div class="legend-group">
+    <span class="legend-label">Roles</span>
+    <span class="role-chip" style="--c: var(--muted)">Solicitante</span>
+    <span class="role-chip" style="--c: var(--terracotta)">TI · Oscar / Leobardo</span>
+    <span class="role-chip" style="--c: var(--navy)">Auditoría · Kimberly / Marisol</span>
+    <span class="role-chip" style="--c: var(--gold)">Karla · Proveedores</span>
+    <span class="role-chip" style="--c: var(--rust)">Appropia · Externo</span>
+  </div>
+  <div class="legend-group">
+    <span class="legend-label">Estados</span>
+    <span class="state-chip bg-pending">Pendiente</span>
+    <span class="state-chip bg-escalated">Escalado</span>
+    <span class="state-chip bg-finished">Finalizado</span>
+    <span class="state-chip bg-cancelled">Cancelado</span>
+  </div>
+</div>
+
+<!-- ========================================================
+     FLOWCHART
+     ======================================================== -->
+<div class="flow-wrapper">
+  <div class="flow">
+
+    <!-- START -->
+    <div class="node start">
+      <div class="n-title">Solicitante levanta ticket en Mesa de Ayuda</div>
+    </div>
+    <div class="arrow-down"></div>
+
+    <div class="node" style="--c: var(--state-pending); background: var(--state-pending-tint)">
+      <div class="n-title" style="color: var(--state-pending)">Estado · Pendiente</div>
+      <div class="n-meta">Tipo + Prioridad + Adjuntos</div>
+    </div>
+    <div class="arrow-down"></div>
+
+    <!-- DECISION 1: Tipo -->
+    <div class="node decision">
+      <div class="n-title">¿Tipo de ticket?</div>
+    </div>
+
+    <!-- BIG BRANCH: Técnico vs Proceso -->
+    <div class="branch-primary">
+
+      <!-- LEFT: Técnico -->
+      <div class="branch-primary-col">
+        <div class="big-branch-label tecnico">Técnico</div>
+
+        <div class="branch-primary-content">
+          <div class="arrow-down arrow-short"></div>
+          <div class="node" style="--c: var(--terracotta)">
+            <span class="n-role">TI</span>
+            <div class="n-title">Evalúa el ticket</div>
+            <div class="n-meta">↳ 1 día hábil</div>
+          </div>
+          <div class="arrow-down"></div>
+
+          <div class="node decision">
+            <div class="n-title">¿Quién resuelve?</div>
+          </div>
+
+          <!-- Sub-branch within Técnico -->
+          <div class="branch">
+            <div class="branch-col">
+              <span class="branch-label" style="--c: var(--terracotta)">Ajuste por TI</span>
+            </div>
+            <div class="branch-col">
+              <span class="branch-label" style="--c: var(--rust)">Escalar a Appropia</span>
+            </div>
+
+            <div class="branch-col-content">
+              <div class="node" style="--c: var(--terracotta)">
+                <span class="n-role">TI</span>
+                <div class="n-title">Ajuste interno por TI</div>
+                <div class="n-meta">Permisos · config · queries</div>
+              </div>
+              <div class="arrow-down"></div>
+              <div class="node state-end border-finished">
+                <span class="state-pill bg-finished">Finalizado</span>
+              </div>
+            </div>
+
+            <div class="branch-col-content">
+              <div class="node" style="--c: var(--terracotta)">
+                <span class="n-role">TI</span>
+                <div class="n-title">Escala a Appropia</div>
+                <div style="margin-top: 6px;"><code class="email">soporte@appropia.com</code></div>
+              </div>
+              <div class="arrow-down"></div>
+              <div class="node state-end border-escalated" style="background: var(--state-escalated-tint)">
+                <span class="state-pill bg-escalated">Escalado</span>
+              </div>
+              <div class="arrow-down"></div>
+              <div class="node" style="--c: var(--rust)">
+                <span class="n-role">Appropia</span>
+                <div class="n-title">Resuelve · soporte o feature</div>
+                <div class="n-meta">↳ 2 días hábiles</div>
+              </div>
+              <div class="arrow-down"></div>
+              <div class="node" style="--c: var(--terracotta)">
+                <span class="n-role">TI</span>
+                <div class="n-title">Valida solución</div>
+              </div>
+              <div class="arrow-down"></div>
+              <div class="node state-end border-finished">
+                <span class="state-pill bg-finished">Finalizado</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Proceso -->
+      <div class="branch-primary-col">
+        <div class="big-branch-label proceso">Proceso</div>
+
+        <div class="branch-primary-content">
+          <div class="arrow-down arrow-short"></div>
+          <div class="node" style="--c: var(--navy)">
+            <span class="n-role" style="--c: var(--navy)">Auditoría</span>
+            <div class="n-title">Evalúa el caso</div>
+            <div class="n-meta">↳ 1 día hábil</div>
+          </div>
+          <div class="arrow-down"></div>
+
+          <div class="node decision">
+            <div class="n-title">¿Requiere a Especialista en desarrollo de proveedores y subcontratos?</div>
+          </div>
+
+          <div class="branch">
+            <div class="branch-col">
+              <span class="branch-label" style="--c: var(--navy)">No</span>
+            </div>
+            <div class="branch-col">
+              <span class="branch-label" style="--c: var(--gold)">Sí</span>
+            </div>
+
+            <div class="branch-col-content">
+              <div class="node" style="--c: var(--navy)">
+                <span class="n-role" style="--c: var(--navy)">Auditoría</span>
+                <div class="n-title">Resuelve directamente</div>
+              </div>
+              <div class="arrow-down"></div>
+              <div class="node state-end border-finished">
+                <span class="state-pill bg-finished">Finalizado</span>
+              </div>
+            </div>
+
+            <div class="branch-col-content">
+              <div class="node" style="--c: var(--gold)">
+                <span class="n-role" style="--c: var(--gold)">Karla</span>
+                <div class="n-title">Gestiona con subcontratista</div>
+                <div class="n-meta">Reupload · corrección</div>
+              </div>
+              <div class="arrow-down"></div>
+              <div class="node" style="--c: var(--navy)">
+                <span class="n-role" style="--c: var(--navy)">Auditoría</span>
+                <div class="n-title">Confirma cumplimiento</div>
+              </div>
+              <div class="arrow-down"></div>
+              <div class="node state-end border-finished">
+                <span class="state-pill bg-finished">Finalizado</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="height: 40px;"></div>
+
+    <!-- END -->
+    <div class="node end">
+      <div class="n-title">Owner cierra · Solicitante recibe correo + evaluación</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Notes -->
+<div class="notes">
+  <div class="note warn">
+    <div class="note-label">Decisión clave 1</div>
+    <div class="note-title">Tipo · al <em>levantar</em></div>
+    <p>El solicitante elige <strong>Técnico</strong> o <strong>Proceso</strong> al crear el ticket. Esto define el rol asignado automáticamente. Sin esta clasificación de origen el flujo no arranca limpio.</p>
+  </div>
+  <div class="note alt">
+    <div class="note-label">Decisión clave 2</div>
+    <div class="note-title">Quién <em>resuelve</em></div>
+    <p>TI evalúa cada ticket técnico. Si el ajuste se puede realizar por TI (permisos, config, queries básicas) lo resuelve internamente. Si requiere desarrollo o lógica de plataforma, escala a Appropia.</p>
+  </div>
+  <div class="note sla">
+    <div class="note-label">SLAs</div>
+    <div class="note-title"><em>1 + 2 + 1</em> días hábiles</div>
+    <p>TI evalúa en 1 día, Appropia resuelve en 2 días, Auditoría cierra en 1 día. Todos hábiles. Estos tiempos cuentan por etapa, no acumulado.</p>
+  </div>
+  <div class="note cancel">
+    <div class="note-label">Estado · Cancelado</div>
+    <div class="note-title">En <em>cualquier</em> punto</div>
+    <p>Si el ticket no procede (duplicado, solicitud inválida, etc.) cualquier owner puede cancelarlo. No requiere pasar por Appropia ni cierre formal.</p>
+  </div>
+</div>
+
+<!-- ========== FOOTER ========== -->
+<footer>
+  <div>ATISA Group · Mesa de Ayuda · Alfresco</div>
+  <div class="signature">Documento de proceso · <em>v1.1 — Mayo 2026</em></div>
+  <div>4 Roles · 4 Estados · 2 Rutas</div>
+</footer>
+
+</div>
+</body>
+</html>
