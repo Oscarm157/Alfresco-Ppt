@@ -15,7 +15,7 @@ export function Slide14Closing({ index, total }: Props) {
     >
       <Reveal className="max-w-4xl">
         <div className="label-mono text-rust mb-8">Punto de inflexión</div>
-        <h2 className="text-[clamp(40px,6vw,84px)] text-ink leading-[1.05] tracking-[-0.01em]">
+        <h2 className="text-[clamp(28px,4.2vw,58px)] text-ink leading-[1.1] tracking-[-0.01em]">
           El proyecto está en un <em>punto</em> de inflexión.
           Con dedicación exclusiva y procesos formales, Alfresco ATISA pasa de
           mantenimiento <em>reactivo</em> a operación <em>predecible</em>.

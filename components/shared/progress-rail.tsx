@@ -13,13 +13,33 @@ export function ProgressRail({ total, containerSelector = ".snap-deck" }: Progre
   useEffect(() => {
     const container = document.querySelector<HTMLElement>(containerSelector);
     if (!container) return;
-    const onScroll = () => {
-      const idx = Math.round(container.scrollTop / window.innerHeight);
-      setActive(Math.max(0, Math.min(total - 1, idx)));
-    };
-    container.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-    return () => container.removeEventListener("scroll", onScroll);
+
+    const slides = Array.from(
+      container.querySelectorAll<HTMLElement>('section[id^="slide-"]')
+    );
+    if (!slides.length) return;
+
+    // IntersectionObserver con root en el container y rootMargin que solo cuenta
+    // un slide como "activo" cuando ocupa la zona central del viewport.
+    const observer = new IntersectionObserver(
+      (entries) => {
+        // Tomar el slide con mayor intersection ratio
+        const active = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (!active) return;
+        const id = active.target.id;
+        const idx = parseInt(id.replace("slide-", ""), 10) - 1;
+        if (!Number.isNaN(idx)) setActive(idx);
+      },
+      {
+        root: container,
+        threshold: [0.3, 0.5, 0.7, 0.9],
+      }
+    );
+
+    slides.forEach((s) => observer.observe(s));
+    return () => observer.disconnect();
   }, [containerSelector, total]);
 
   const goTo = (i: number) => {
